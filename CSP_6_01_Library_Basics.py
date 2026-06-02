@@ -1,31 +1,76 @@
-#Please modify the below functions so they fulfill the described process.
-#You must use a function from analytics.py in each question to receive credit.
-#There is no provided test file. You must make and submit one yourself. (check older test files for reference)
-
-
-# Modify the below function such that it takes in a list of prices and returns that list with 15% added value
 def process_expenses(rawPrices):
-    pass
+    from analytics import apply_markup
+
+    new_prices = []
+
+    for price in rawPrices:
+        new_price = apply_markup(price, 0.15)
+        new_prices.append(new_price)
+
+    return new_prices
 
 
-# Modify the below function such that it asks the user for n scores and then returns the highest score and the average score of the list.
 def analyze_scores(n):
-    pass
+    from analytics import get_average, get_highest
 
-# Modify the below function such that it takes in a list of strings and returns that list with all spaces removed
-#and all letters lower case.
-def sanitize_usernames():
-   pass
+    scores = []
+
+    for i in range(n):
+        score = float(input("Enter score: "))
+        scores.append(score)
+
+    highest = get_highest(scores)
+    average = get_average(scores)
+
+    return highest, average
 
 
-# Modify the list such that it takes in a list as an argument and returns a version of the list with all values over 100.
-def identify_outliers():
-    pass
+def sanitize_usernames(usernames):
+    from analytics import clean_text
+
+    return clean_text(usernames)
 
 
-# Modify the below function such that it takes in a list of items and asks the user for an item to search for.
-#Sanitize the list to only be lower case worsd with no extra spaces
-#Then return the location of the word using binary search if the list is in order and linear search if it is not.
-#example items = ["  Apple", "Banana ", "  CHERRY  ", " date "]
-def search_and_report():
-    pass
+def identify_outliers(numbers):
+    from analytics import filter_threshold
+
+    return filter_threshold(numbers, 100)
+
+
+def linear_search(items, target):
+    for i in range(len(items)):
+        if items[i] == target:
+            return i
+
+    return -1
+
+
+def binary_search(items, target):
+    left = 0
+    right = len(items) - 1
+
+    while left <= right:
+        middle = (left + right) // 2
+
+        if items[middle] == target:
+            return middle
+        elif items[middle] < target:
+            left = middle + 1
+        else:
+            right = middle - 1
+
+    return -1
+
+
+def search_and_report(items):
+    from analytics import clean_text
+
+    cleaned_items = clean_text(items)
+
+    target = input("Enter item to search for: ")
+    target = target.strip().lower()
+
+    if cleaned_items == sorted(cleaned_items):
+        return binary_search(cleaned_items, target)
+    else:
+        return linear_search(cleaned_items, target)
